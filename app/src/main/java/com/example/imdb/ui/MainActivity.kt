@@ -4,14 +4,17 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.imdb.R
 import com.example.imdb.data.db.Playlist
 import com.example.imdb.data.db.PlaylistDatabase
+import com.example.imdb.data.model.FetchPlaylistResult
 import com.example.imdb.data.network.MovieRepository
 import com.example.imdb.databinding.ActivityMainBinding
 import com.example.imdb.ui.bottomsheet.PlayListBottomSheet
 import com.example.imdb.util.CustomViewModelFactory
+import java.util.UUID
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -34,22 +37,26 @@ class MainActivity : AppCompatActivity() {
     private fun setupData() {
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         movieAdapter = MovieAdapter {
-            mainViewModel.fetchPlaylist()
+            mainViewModel.fetchPlaylist(it.title)
         }
         binding.recyclerView.adapter = movieAdapter
         val inputStream = resources.openRawResource(R.raw.response)
         mainViewModel.fetchDataData(inputStream)
     }
 
-    private fun loadBottomSheet(playlist: List<Playlist>) {
+    private fun loadBottomSheet(result: FetchPlaylistResult) {
         val bottomSheet = PlayListBottomSheet.newInstance(
-            playlist = playlist,
+            playlist = result.playlist,
             callback = object : PlayListBottomSheet.OptionCLickListener {
                 override fun save(playlist: Playlist) {
-
+                    if (playlist.movies.isNullOrEmpty()) {
+                        playlist.movies = mutableListOf(result.movieToBeAdded)
+                    }
+                    mainViewModel.updatePlaylist(playlist)
                 }
 
-                override fun new(playlist: Playlist) {
+                override fun new() {
+                    mainViewModel.createNewPlaylist(Playlist("name", mutableListOf(result.movieToBeAdded)))
 
                 }
             }

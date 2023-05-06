@@ -60,7 +60,7 @@ class PlayListBottomSheet private constructor() : BottomSheetDialogFragment() {
 
     interface OptionCLickListener {
         fun save(playlist: Playlist)
-        fun new(playlist: Playlist)
+        fun new()
     }
 
 

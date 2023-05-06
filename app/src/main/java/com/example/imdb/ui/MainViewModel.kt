@@ -1,12 +1,11 @@
 package com.example.imdb.ui
 
-import android.app.Application
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.imdb.data.db.Playlist
+import com.example.imdb.data.model.FetchPlaylistResult
 import com.example.imdb.data.model.MovieResponse
 import com.example.imdb.data.network.MovieRepository
 import kotlinx.coroutines.Dispatchers
@@ -17,13 +16,13 @@ class MainViewModel(private val repository: MovieRepository) : ViewModel() {
 
     private val movieList = MutableLiveData<MovieResponse>()
 
-    private val playList = MutableLiveData<List<Playlist>>()
+    private val playList = MutableLiveData<FetchPlaylistResult>()
 
     fun getMovies(): LiveData<MovieResponse> {
         return movieList
     }
 
-    fun getPlaylist(): LiveData<List<Playlist>> {
+    fun getPlaylist(): LiveData<FetchPlaylistResult> {
         return playList
     }
 
@@ -37,16 +36,22 @@ class MainViewModel(private val repository: MovieRepository) : ViewModel() {
         }
     }
 
-    fun fetchPlaylist() {
+    fun fetchPlaylist(movieToBeAdded: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val list = repository.fetchPlaylist()
-            playList.postValue(list)
+            playList.postValue(FetchPlaylistResult(movieToBeAdded, list))
         }
     }
 
     fun createNewPlaylist(playlist: Playlist) {
         viewModelScope.launch {
             repository.createNewPlayList(playlist)
+        }
+    }
+
+    fun updatePlaylist(playlist: Playlist) {
+        viewModelScope.launch {
+            repository.updatePlayList(playlist)
         }
     }
 }

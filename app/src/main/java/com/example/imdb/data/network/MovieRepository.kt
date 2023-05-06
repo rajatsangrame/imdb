@@ -36,4 +36,8 @@ class MovieRepository(
         playlistDao.insert(playlist)
     }
 
+    suspend fun updatePlayList(playlist: Playlist) {
+        playlistDao.update(playlist)
+    }
+
 }
