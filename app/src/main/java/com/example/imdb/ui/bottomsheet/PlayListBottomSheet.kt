@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.imdb.data.db.Playlist
 import com.example.imdb.databinding.FragmentBottomSheetBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
@@ -14,7 +15,7 @@ class PlayListBottomSheet private constructor() : BottomSheetDialogFragment() {
     private var callback: OptionCLickListener? = null
     private lateinit var binding: FragmentBottomSheetBinding
     private lateinit var playlistAdapter: PlaylistAdapter
-    private lateinit var playlist: List<String>
+    private lateinit var playlist: List<Playlist>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,8 +59,8 @@ class PlayListBottomSheet private constructor() : BottomSheetDialogFragment() {
     }
 
     interface OptionCLickListener {
-        fun save(playlist: String)
-        fun new(playlist: String)
+        fun save(playlist: Playlist)
+        fun new(playlist: Playlist)
     }
 
 
@@ -69,7 +70,7 @@ class PlayListBottomSheet private constructor() : BottomSheetDialogFragment() {
         @JvmStatic
         fun newInstance(
             callback: OptionCLickListener,
-            playlist: List<String>
+            playlist: List<Playlist>
         ): PlayListBottomSheet {
             return PlayListBottomSheet().apply {
                 this.callback = callback

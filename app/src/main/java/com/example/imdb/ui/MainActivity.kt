@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.imdb.R
+import com.example.imdb.data.db.Playlist
 import com.example.imdb.data.db.PlaylistDatabase
 import com.example.imdb.data.network.MovieRepository
 import com.example.imdb.databinding.ActivityMainBinding
@@ -33,23 +34,22 @@ class MainActivity : AppCompatActivity() {
     private fun setupData() {
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         movieAdapter = MovieAdapter {
-            loadBottomSheet()
+            mainViewModel.fetchPlaylist()
         }
         binding.recyclerView.adapter = movieAdapter
         val inputStream = resources.openRawResource(R.raw.response)
         mainViewModel.fetchDataData(inputStream)
     }
 
-    private fun loadBottomSheet() {
-
+    private fun loadBottomSheet(playlist: List<Playlist>) {
         val bottomSheet = PlayListBottomSheet.newInstance(
-            playlist = ArrayList(),
+            playlist = playlist,
             callback = object : PlayListBottomSheet.OptionCLickListener {
-                override fun save(playlist: String) {
+                override fun save(playlist: Playlist) {
 
                 }
 
-                override fun new(playlist: String) {
+                override fun new(playlist: Playlist) {
 
                 }
             }
@@ -62,6 +62,11 @@ class MainActivity : AppCompatActivity() {
             it?.let {
                 Log.d(TAG, "setupObservers: ${it.results.size}")
                 movieAdapter.setList(it.results)
+            }
+        }
+        mainViewModel.getPlaylist().observe(this) {
+            it?.let {
+                loadBottomSheet(it)
             }
         }
     }

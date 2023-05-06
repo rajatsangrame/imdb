@@ -3,16 +3,17 @@ package com.example.imdb.ui.bottomsheet
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.imdb.data.db.Playlist
 import com.example.imdb.databinding.PlaylistItemBinding
 
 
 class PlaylistAdapter(
-    private var playList: List<String> = ArrayList(),
-    private val listener: (String) -> Unit
+    private var playList: List<Playlist> = ArrayList(),
+    private val listener: (Playlist) -> Unit
 ) :
     RecyclerView.Adapter<PlaylistAdapter.ViewHolder>() {
 
-    fun setList(playList: List<String>) {
+    fun setList(playList: List<Playlist>) {
         this.playList = playList
         notifyDataSetChanged()
     }
@@ -27,7 +28,7 @@ class PlaylistAdapter(
     }
 
     override fun onBindViewHolder(holder: PlaylistAdapter.ViewHolder, position: Int) {
-        holder.binding.tvPlaylist.text = playList[position]
+        holder.binding.tvPlaylist.text = playList[position].name
     }
 
     override fun getItemCount(): Int {

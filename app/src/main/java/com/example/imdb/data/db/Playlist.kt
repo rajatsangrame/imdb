@@ -12,5 +12,5 @@ data class Playlist(
     val name: String,
 
     @ColumnInfo(name = "songs")
-    val songs: List<String>
+    val songs: List<String>?
 )

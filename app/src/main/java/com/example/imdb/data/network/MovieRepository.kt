@@ -1,7 +1,5 @@
 package com.example.imdb.data.network
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.example.imdb.data.db.Playlist
 import com.example.imdb.data.db.PlaylistDao
 import com.example.imdb.data.model.MovieResponse
@@ -14,7 +12,7 @@ class MovieRepository(
     private val playlistDao: PlaylistDao
 ) {
 
-    suspend fun fetchDataData(inputStream: InputStream, page: Int = 0): LiveData<MovieResponse> {
+    suspend fun fetchDataData(inputStream: InputStream, page: Int = 0): MovieResponse {
         val outputStream = ByteArrayOutputStream()
         val buf = ByteArray(1024)
         var len: Int
@@ -26,18 +24,16 @@ class MovieRepository(
             inputStream.close()
         } catch (e: IOException) {
         }
-        val liveData = MutableLiveData<MovieResponse>()
-        val response = Gson().fromJson(outputStream.toString(), MovieResponse::class.java)
-        liveData.value = response
-        return liveData
+
+        return Gson().fromJson(outputStream.toString(), MovieResponse::class.java)
     }
 
-    suspend fun getAllPlaylist(): List<Playlist>? {
-        return playlistDao?.getAllPlaylist()
+    suspend fun fetchPlaylist(): List<Playlist> {
+        return playlistDao.getAllPlaylist()
     }
 
     suspend fun createNewPlayList(playlist: Playlist) {
-        playlistDao?.insert(playlist)
+        playlistDao.insert(playlist)
     }
 
 }
