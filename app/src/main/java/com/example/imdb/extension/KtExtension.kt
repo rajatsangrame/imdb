@@ -1,4 +1,4 @@
-package com.example.boombox.extension
+package com.example.imdb.extension
 
 import android.widget.ImageView
 import com.bumptech.glide.Glide

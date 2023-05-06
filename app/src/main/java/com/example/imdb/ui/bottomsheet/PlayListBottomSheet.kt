@@ -49,7 +49,7 @@ class PlayListBottomSheet private constructor() : BottomSheetDialogFragment() {
         }
         binding.rvPlayList.adapter = playlistAdapter
         binding.btnNewPlaylist.setOnClickListener {
-            Log.d(TAG, "setup: btnNewPlaylist")
+            callback?.new()
         }
     }
 

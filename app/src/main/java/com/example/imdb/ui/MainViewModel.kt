@@ -44,13 +44,13 @@ class MainViewModel(private val repository: MovieRepository) : ViewModel() {
     }
 
     fun createNewPlaylist(playlist: Playlist) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             repository.createNewPlayList(playlist)
         }
     }
 
     fun updatePlaylist(playlist: Playlist) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             repository.updatePlayList(playlist)
         }
     }

@@ -3,7 +3,7 @@ package com.example.imdb.ui
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.boombox.extension.loadImage
+import com.example.imdb.extension.loadImage
 import com.example.imdb.data.model.Movie
 import com.example.imdb.databinding.MovieItemBinding
 
