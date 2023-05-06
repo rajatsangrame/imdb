@@ -11,8 +11,7 @@ import java.io.IOException
 import java.io.InputStream
 
 class MovieRepository(
-    // I was getting compilation error
-    private val playlistDao: PlaylistDao? = null
+    private val playlistDao: PlaylistDao
 ) {
 
     suspend fun fetchDataData(inputStream: InputStream, page: Int = 0): LiveData<MovieResponse> {
