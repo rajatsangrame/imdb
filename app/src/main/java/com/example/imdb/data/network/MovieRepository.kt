@@ -10,7 +10,10 @@ import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.InputStream
 
-class MovieRepository(private val playlistDao: PlaylistDao) {
+class MovieRepository(
+    // I was getting compilation error
+    private val playlistDao: PlaylistDao? = null
+) {
 
     suspend fun fetchDataData(inputStream: InputStream, page: Int = 0): LiveData<MovieResponse> {
         val outputStream = ByteArrayOutputStream()
@@ -30,12 +33,12 @@ class MovieRepository(private val playlistDao: PlaylistDao) {
         return liveData
     }
 
-    suspend fun getAllPlaylist(): List<Playlist> {
-        return playlistDao.getAllPlaylist()
+    suspend fun getAllPlaylist(): List<Playlist>? {
+        return playlistDao?.getAllPlaylist()
     }
 
     suspend fun createNewPlayList(playlist: Playlist) {
-        playlistDao.insert(playlist)
+        playlistDao?.insert(playlist)
     }
 
 }

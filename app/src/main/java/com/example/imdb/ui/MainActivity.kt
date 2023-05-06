@@ -16,8 +16,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var movieAdapter: MovieAdapter
     private val mainViewModel: MainViewModel by viewModels {
-        val dao = PlaylistDatabase.getDataBase(this)!!.playListDao()
-        val repository = MovieRepository(dao)
+        //val dao = PlaylistDatabase.getDataBase(this)!!.playListDao()
+        //val repository = MovieRepository(dao)
+        val repository = MovieRepository()
         CustomViewModelFactory(repository)
     }
 
